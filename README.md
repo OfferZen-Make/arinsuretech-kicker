@@ -11,7 +11,7 @@ This is a starter project to [build an augmented reality app with Root insurance
 1. Upload the following two target tracking images to your Vuforia database:
    1. [`egg1`](https://github.com/OfferZen-Make/arinsuretech-kicker/blob/master/Assets/egg1.jpeg)
    1. [`egg2`](https://github.com/OfferZen-Make/arinsuretech-kicker/blob/master/Assets/egg2.jpeg)
-1. Download your Vuforia database to a known location and import it into your Unity project.
+1. Download your Vuforia "Device" database to a known location and import it into your Unity project.
 
 ## Walkthrough Screencast
 
@@ -41,15 +41,29 @@ Great, you got this far. You're almost there!
 1. Under the "Project" tab, navigate to the folder `Assets -> Scenes` and open the scene called `SampleScene`.
 1. Under the "Project" tab, navigate to `Assets -> Resources` and click on `Vuforia Configuration`.
 1. Add your generated Vuforia App License Key in the Vuforia Inspector (on the right).
+   - Just below it, increase the `Max Simultaneous Tracked Images` and `Max Simultaneous Tracked Objects` settings from 1 to 10.
 1. Tick the `Vuforia Augmented Reality Support` checkbox under `Edit -> Project Settings -> Player`.
 1. Select the imported targed in `Image Target Behaviour` In the `ImageTarget` GameObject.
 1. Click the `Play` button (middle top) and have fun!
 
+## Collision Pitfalls
+
+ - `OnCollisionEnter(Collision)` only fires if:
+   - One of the objects has a `Rigidbody` component attached.
+   - The `Rigidbody` component appears *above* the `Collision` component (order matters).
+   - "Is Kinematic?" is *unticked*.
+   - "Is Trigger?" is *unticked*.
+ - `OnTriggerEnter(Collider)` only fires if "Is Trigger?" is ticked. 
+
 ## Common Pitfalls
 
- - "My external USB webcam not listed in Vuforia." This can be caused by version migration issues, or when the webcam was unplugged while starting Unity. 
- - "Vuforia only tracks one target at a time." There is a default limit of 1 tracking targets.
- 
+ - "The external USB webcam is not listed in Vuforia, but works in other applications."
+   1. Did you migrate your project from an older version? Try a fresh project.
+   2. Plug in the webcam before starting Unity.
+   3. Upgrade to the latest version of Vuforia.  
+ - "Vuforia only tracks one target at a time."
+   - Increase `Max Simultaneous Tracked Images` and `Max Simultaneous Tracked Objects` from 1 to 10:
+
 ![Where to change maximum simultaneous image tracking](docs/images/max-tracking-screenshot.png)
 
 ## Helpful Hints
@@ -57,3 +71,4 @@ Great, you got this far. You're almost there!
  - Right-click inside the hierachy tree (on the left) to quickly add new nodes.
  - To rotate the viewport, hold <kbd>Alt</kbd> (on PC) or <kbd>Option</kbd> (on Mac) while dragging.
  - To pan the viewport, hold <kbd>Alt+Cmd</kbd> (on Mac) or <kbd>Option</kbd> (on PC) while dragging.
+ - In addition to tracking 2D images with `ImageTarget`, Vuforia supports tracking 3D models with `ModelTarget`. 
